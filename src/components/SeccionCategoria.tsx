@@ -21,7 +21,6 @@ function SeccionCategoria({category, product, onAdd} SeccionCategoriaProps) {
     </section>
   );
 }
-
 export default SeccionCategoria;
 
 

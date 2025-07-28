@@ -5,6 +5,7 @@ interface FilaItemProps {
   onRemove: (id: string) => void;
 }
 
+
 function FilaItem({ item, onRemove }: FilaItemProps) {
   return (
     <div className="flex justify-between items-center py-2 border-b last:border-none">
