@@ -11,15 +11,20 @@ function CardProducto({ producto, añadirAlCarrito }: ProductosCardProps) {
 
   return (
     <>
-        <div className="bg-white rounded-lg shadow-md p-3 w-52 flex flex-col justify-between h-70">
-        <img
-          src="https://via.placeholder.com/286x180"
-          alt={producto.name}
-          className="rounded-md mb-3 w-full h-40 object-cover"
-        />
+      <div className="bg-white rounded-lg shadow-md p-3 w-52 flex flex-col justify-between h-70">
+
+        {/* CAMBIO APLICADO: Imagen contenida, proporcional y centrada */}
+        <div className="w-full h-40 mb-3 overflow-hidden rounded-md bg-gray-100 flex items-center justify-center">
+          <img
+            src={`/${producto.image}`}
+            alt={producto.name}
+            className="max-h-full max-w-full object-contain"
+          />
+        </div>
+
         <h5 className="text-base font-semibold text-gray-800">{producto.name}</h5>
 
-        <p className="text-xs text-gray-600 mb-2 min-h-[2rem]">          
+        <p className="text-xs text-gray-600 mb-2 min-h-[2rem]">
           Precio - ${producto.price.toFixed(2)}
           {producto.promotion && (
             <span className="ml-2 inline-block bg-green-100 text-green-800 text-xs font-medium px-1 py-0.5 rounded-full">
