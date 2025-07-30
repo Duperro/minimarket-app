@@ -5,21 +5,20 @@ import CATEGORIAS from "./data/categorias";
 import TotalCompra from "./components/TotalCompra";
 import type { ItemCarrito } from "./components/FilaItemCarrito";
 import type { Product } from "./data/productos";
+import Head from "./components/Head";
+import OrdenarProductos from "./components/OrdenarProductos";
 
 function App() {
   const [carrito, setCarrito] = useState<ItemCarrito[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [ordenarPor, setOrdenarPor] = useState<string>("");
 
   function calculateCartItem(producto: Product, cantidad: number): ItemCarrito {
     const freeItems =
       producto.promotion === "3x2" ? Math.floor(cantidad / 3) : 0;
     const Descuento = freeItems * producto.price;
     const Total = cantidad * producto.price - Descuento;
-    return {
-      producto,
-      cantidad,
-      Total,
-      Descuento,
-    };
+    return { producto, cantidad, Total, Descuento };
   }
 
   function handleAdd(producto: Product, qty: number) {
@@ -53,34 +52,70 @@ function App() {
 
   const totalCarrito = subtotal - totalDiscount;
 
+  const productosFiltrados = useMemo(() => {
+    let filtrados = selectedCategory
+      ? PRODUCTS.filter((p) => p.category === selectedCategory)
+      : PRODUCTS;
+
+    switch (ordenarPor) {
+      case "Promociones":
+        filtrados = filtrados.filter((p) => p.promotion === "3x2");
+        break;
+      case "Nombre ascendente":
+        filtrados = [...filtrados].sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+        break;
+      case "Nombre descendente":
+        filtrados = [...filtrados].sort((a, b) =>
+          b.name.localeCompare(a.name)
+        );
+        break;
+      case "Precio: menor a mayor":
+        filtrados = [...filtrados].sort((a, b) => a.price - b.price);
+        break;
+      case "Precio: mayor a menor":
+        filtrados = [...filtrados].sort((a, b) => b.price - a.price);
+        break;
+    }
+
+    return filtrados;
+  }, [selectedCategory, ordenarPor]);
+
   return (
     <div className="min-h-screen bg-neutral-50 p-6 font-sans text-gray-700">
-    <header className="bg-white text-gray-800 py-4 px-6 drop-shadow-[0_4px_6px_rgba(59,130,246,0.3)] mb-6 flex items-center justify-between rounded-lg">
-        <div className="flex items-center gap-5">
-          <img
-            src="../public/logo.png"
-            alt="Logo"
-            className="h-15 rounded-sm object-cover"/>
-        </div>
-        <div className="text-sm md:text-base font-medium">
-          Total: <span className="font-bold">${totalCarrito.toFixed(2)}</span>
-        </div>
-      </header>
+      <Head
+        total={totalCarrito}
+        selected={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
 
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Contenido principal (categorías) */}
         <main className="flex-1 space-y-8">
-          {CATEGORIAS.map((e) => (
+          {selectedCategory && (
+            <OrdenarProductos onOrdenar={setOrdenarPor} />
+          )}
+
+          {selectedCategory ? (
             <CategoriaSeccion
-              key={e}
-              categoria={e}
-              productos={PRODUCTS.filter((p) => p.category === e)}
+              categoria={selectedCategory}
+              productos={productosFiltrados}
               añadirAlCarrito={handleAdd}
             />
-          ))}
+          ) : (
+            CATEGORIAS.map((categoria) => (
+              <CategoriaSeccion
+                key={categoria}
+                categoria={categoria}
+                productos={PRODUCTS.filter(
+                  (p) => p.category === categoria
+                )}
+                añadirAlCarrito={handleAdd}
+              />
+            ))
+          )}
         </main>
 
-        {/* Panel lateral: carrito a la derecha */}
         <aside className="w-full lg:w-80 bg-blue-50 p-4 rounded-xl shadow-lg h-[90vh] overflow-y-auto sticky top-4">
           <TotalCompra
             items={carrito}

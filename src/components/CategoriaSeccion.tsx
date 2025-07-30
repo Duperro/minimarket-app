@@ -14,7 +14,10 @@ function CategoriaSeccion({
 }: CategoriaSeccionProps) {
   return (
     <section>
-      <h2 className="text-2xl font-semibold mb-2 text-red-700 flex items-center gap-2 capitalize">
+      <h2
+        className="text-2xl font-extrabold text-blue-900 uppercase mb-4"
+        style={{ fontFamily: "Montserrat, sans-serif" }}
+      >
         {categoria}
       </h2>
       <div className="flex flex-wrap gap-4">
