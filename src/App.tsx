@@ -55,16 +55,12 @@ function App() {
 
   return (
     <div className="min-h-screen bg-neutral-50 p-6 font-sans text-gray-700">
-      <header className="bg-red-600 text-white py-4 px-6 shadow-md mb-6 flex items-center justify-between rounded-lg">
-        <div className="flex items-center gap-3">
+    <header className="bg-white text-gray-800 py-4 px-6 drop-shadow-[0_4px_6px_rgba(59,130,246,0.3)] mb-6 flex items-center justify-between rounded-lg">
+        <div className="flex items-center gap-5">
           <img
             src="../public/logo.png"
             alt="Logo"
-            className="w-12 h-12 rounded-full object-cover"
-          />
-          <h1 className="text-2xl font-bold tracking-wide">
-            Minimarket Las Lomas
-          </h1>
+            className="h-15 rounded-sm object-cover"/>
         </div>
         <div className="text-sm md:text-base font-medium">
           Total: <span className="font-bold">${totalCarrito.toFixed(2)}</span>
