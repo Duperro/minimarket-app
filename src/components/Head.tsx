@@ -25,7 +25,7 @@ function Head({
       <div className="flex flex-col gap-4">
         {/* logo y total */}
         <div className="flex items-center justify-between">
-          <img src="/logo.png" alt="Logo" className="h-24 object-cover" />
+          <img src="/logo.png" alt="Logo" className="h-14 object-cover" />
           <div
             className="text-sm md:text-base font-medium"
             style={{ fontFamily: "Montserrat, sans-serif" }}
