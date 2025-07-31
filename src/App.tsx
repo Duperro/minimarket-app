@@ -12,6 +12,7 @@ function App() {
   const [carrito, setCarrito] = useState<ItemCarrito[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [ordenarPor, setOrdenarPor] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   function calculateCartItem(producto: Product, cantidad: number): ItemCarrito {
     const freeItems =
@@ -53,10 +54,21 @@ function App() {
   const totalCarrito = subtotal - totalDiscount;
 
   const productosFiltrados = useMemo(() => {
-    let filtrados = selectedCategory
-      ? PRODUCTS.filter((p) => p.category === selectedCategory)
-      : PRODUCTS;
+    let filtrados = PRODUCTS;
 
+    // Filtrar por categoría
+    if (selectedCategory) {
+      filtrados = filtrados.filter((p) => p.category === selectedCategory);
+    }
+
+    // Filtrar por búsqueda
+    if (searchTerm.trim() !== "") {
+      filtrados = filtrados.filter((p) =>
+        p.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Ordenar
     switch (ordenarPor) {
       case "Promociones":
         filtrados = filtrados.filter((p) => p.promotion === "3x2");
@@ -80,7 +92,7 @@ function App() {
     }
 
     return filtrados;
-  }, [selectedCategory, ordenarPor]);
+  }, [selectedCategory, ordenarPor, searchTerm]);
 
   return (
     <div className="min-h-screen bg-neutral-50 p-6 font-sans text-gray-700">
@@ -88,6 +100,8 @@ function App() {
         total={totalCarrito}
         selected={selectedCategory}
         onSelectCategory={setSelectedCategory}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
 
       <div className="flex flex-col lg:flex-row gap-6">
@@ -107,7 +121,7 @@ function App() {
               <CategoriaSeccion
                 key={categoria}
                 categoria={categoria}
-                productos={PRODUCTS.filter(
+                productos={productosFiltrados.filter(
                   (p) => p.category === categoria
                 )}
                 añadirAlCarrito={handleAdd}

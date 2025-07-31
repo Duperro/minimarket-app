@@ -5,9 +5,17 @@ interface HeadProps {
   total: number;
   selected: string | null;
   onSelectCategory: (cat: string | null) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
-function Head({ total, selected, onSelectCategory }: HeadProps) {
+function Head({
+  total,
+  selected,
+  onSelectCategory,
+  searchTerm,
+  setSearchTerm,
+}: HeadProps) {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [selected]);
@@ -22,7 +30,10 @@ function Head({ total, selected, onSelectCategory }: HeadProps) {
             alt="Logo"
             className="h-24 object-cover"
           />
-          <div className="text-sm md:text-base font-medium" style={{ fontFamily: "Montserrat, sans-serif" }}>
+          <div
+            className="text-sm md:text-base font-medium"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
             Total: <span className="font-bold">${total.toFixed(2)}</span>
           </div>
         </div>
@@ -57,6 +68,13 @@ function Head({ total, selected, onSelectCategory }: HeadProps) {
           ))}
         </div>
       </div>
+      <input
+        type="text"
+        placeholder="Buscar producto..."
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
+        className="border rounded px-3 py-2 w-full max-w-xs mt-4"
+      />
     </header>
   );
 }
