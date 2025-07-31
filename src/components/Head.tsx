@@ -21,15 +21,11 @@ function Head({
   }, [selected]);
 
   return (
-    <header className="bg-white text-gray-800 py-4 px-6 drop-shadow-[0_4px_6px_rgba(59,130,246,0.3)] mb-6 rounded-lg">
+    <header className="bg-white text-gray-800 py-4 px-6 shadow-md mb-6 rounded-lg">
       <div className="flex flex-col gap-4">
-        {/* Logo + Total */}
+        {/* Logo y Total */}
         <div className="flex items-center justify-between">
-          <img
-            src="/logo.png"
-            alt="Logo"
-            className="h-24 object-cover"
-          />
+          <img src="/logo.png" alt="Logo" className="h-24 object-cover" />
           <div
             className="text-sm md:text-base font-medium"
             style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -38,43 +34,54 @@ function Head({
           </div>
         </div>
 
-        {/* Botones de categorías */}
-        <div className="flex flex-wrap gap-3 mt-2">
-          <button
-            onClick={() => onSelectCategory(null)}
-            className={`px-4 py-1 rounded-full text-sm font-semibold border transition ${
-              selected === null
-                ? "bg-blue-900 text-white"
-                : "bg-white text-blue-900 border-blue-900"
-            }`}
-            style={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            Ver todos
-          </button>
-
-          {CATEGORIAS.map((cat) => (
+        {/* Categorías + Buscador */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-2">
+          {/* Botones de categorías */}
+          <div className="flex flex-wrap gap-3">
             <button
-              key={cat}
-              onClick={() => onSelectCategory(cat)}
-              className={`px-4 py-1 rounded-full text-sm font-semibold border transition ${
-                selected === cat
-                  ? "bg-blue-900 text-white"
+              onClick={() => onSelectCategory(null)}
+              className={`px-4 py-1 rounded-full text-sm font-semibold border transition shadow-sm ${
+                selected === null
+                  ? "bg-blue-900 text-white border-blue-900"
                   : "bg-white text-blue-900 border-blue-900"
               }`}
               style={{ fontFamily: "Montserrat, sans-serif" }}
             >
-              {cat}
+              Ver todos
             </button>
-          ))}
+
+            {CATEGORIAS.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => onSelectCategory(cat)}
+                className={`px-4 py-1 rounded-full text-sm font-semibold border transition shadow-sm ${
+                  selected === cat
+                    ? "bg-blue-900 text-white border-blue-900"
+                    : "bg-white text-blue-900 border-blue-900"
+                }`}
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Buscador */}
+          <div className="relative w-full md:w-100">
+            <input
+              type="text"
+              placeholder="Buscar producto..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-4 pr-10 py-2 border border-blue-900 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              style={{ fontFamily: "Montserrat, sans-serif" }}
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-900 pointer-events-none">
+              🔍
+            </span>
+          </div>
         </div>
       </div>
-      <input
-        type="text"
-        placeholder="Buscar producto..."
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        className="border rounded px-3 py-2 w-full max-w-xs mt-4"
-      />
     </header>
   );
 }
