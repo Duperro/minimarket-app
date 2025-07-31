@@ -23,7 +23,7 @@ function Head({
   return (
     <header className="bg-white text-gray-800 py-4 px-6 shadow-md mb-6 rounded-lg">
       <div className="flex flex-col gap-4">
-        {/* Logo y Total */}
+        {/* logo y total */}
         <div className="flex items-center justify-between">
           <img src="/logo.png" alt="Logo" className="h-24 object-cover" />
           <div
@@ -34,9 +34,9 @@ function Head({
           </div>
         </div>
 
-        {/* Categorías + Buscador */}
+        {/* categorías + buscador */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-2">
-          {/* Botones de categorías */}
+          {/* botones de categorías */}
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => onSelectCategory(null)}
@@ -66,7 +66,7 @@ function Head({
             ))}
           </div>
 
-          {/* Buscador */}
+          {/* seccion del buscador */}
           <div className="relative w-full md:w-100">
             <input
               type="text"
